@@ -23,22 +23,40 @@ public class SearchContoroller {
 		List<Product> list = productRepository.findAll();
 		return list;
 	}
+	
+	@GetMapping("/searchP")
+	public List<Product> getAll(@RequestParam("upper_price") Integer upperPrice,
+								@RequestParam("lower_price") Integer lowerPrice) {
+		List<Product> list = productRepository.findAllByPriceRenge(upperPrice, lowerPrice);
+		return list;
+	}
+	
+	
 	@GetMapping("/search/category")
 	public List<Product> getCategory(@RequestParam("category_id") String categoryId) {
 		List<Product> list = productRepository.findAllByCategoryId(categoryId);
 		return list;
 	}
 	
-	@GetMapping("/search/price")
-	public List<Product> getPrice(@RequestParam("upper_price") Integer upperPrice,
-								@RequestParam("lower_price") Integer lowerPrice) {
-		List<Product> list = productRepository.findAllByPriceRenge(upperPrice, lowerPrice);
+	@GetMapping("/search/categoryP")
+	public List<Product> getCategory(@RequestParam("category_id") String categoryId,
+									@RequestParam("upper_price") Integer upperPrice,
+									@RequestParam("lower_price") Integer lowerPrice) {
+		List<Product> list = productRepository.findAllByCategoryIdByPriceRenge(categoryId, upperPrice, lowerPrice);
 		return list;
 	}
 	
 	@GetMapping("/search/keyword")
 	public List<Product> getKeyword(@RequestParam("keyword") String keyword) {
 		List<Product> list = productRepository.findAllByKeyword(keyword);
+		return list;
+	}
+	
+	@GetMapping("/search/keywordP")
+	public List<Product> getKeyword(@RequestParam("keyword") String keyword,
+									@RequestParam("upper_price") Integer upperPrice,
+									@RequestParam("lower_price") Integer lowerPrice) {
+		List<Product> list = productRepository.findAllByKeywordByPriceRenge(keyword, upperPrice, lowerPrice);
 		return list;
 	}
 }
