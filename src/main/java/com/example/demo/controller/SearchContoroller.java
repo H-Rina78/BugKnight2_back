@@ -33,7 +33,7 @@ public class SearchContoroller {
 	
 	@GetMapping("/search/keyword")
 	public List<Product> getKeyword(@RequestParam("keyword") String keyword) {
-		List<Product> list = null;
+		List<Product> list = productRepository.findAllByKeyword(keyword);
 		return list;
 	}
 }
