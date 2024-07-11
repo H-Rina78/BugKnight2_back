@@ -23,6 +23,6 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 	
 	//キーワードでセレクトする
 		@Query(value = "SELECT * FROM product WHERE "
-				+ "price BETWEEN :lowerPrice AND :upperPrice", nativeQuery = true)
+				+ "price = 1", nativeQuery = true)
 		List<Product> findAllByKeyword(@Param("keyword") String keyword);
 }
