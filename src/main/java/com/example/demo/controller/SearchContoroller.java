@@ -18,9 +18,14 @@ import lombok.AllArgsConstructor;
 public class SearchContoroller {
 	private final ProductRepository productRepository;
 	
+	@GetMapping("/search")
+	public List<Product> getAll() {
+		List<Product> list = productRepository.findAll();
+		return list;
+	}
 	@GetMapping("/search/category")
 	public List<Product> getCategory(@RequestParam("category_id") String categoryId) {
-		List<Product> list = productRepository.findAllByCategoryId(categoryId);;
+		List<Product> list = productRepository.findAllByCategoryId(categoryId);
 		return list;
 	}
 	
