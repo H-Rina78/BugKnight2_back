@@ -51,7 +51,7 @@ public class SearchContoroller {
 		List<Product> list = productRepository.findAllByKeyword(keyword);
 		return list;
 	}
-	
+	 
 	@GetMapping("/search/keywordP")
 	public List<Product> getKeyword(@RequestParam("keyword") String keyword,
 									@RequestParam("upper_price") Integer upperPrice,
