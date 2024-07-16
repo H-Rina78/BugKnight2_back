@@ -59,4 +59,10 @@ public class SearchContoroller {
 		List<Product> list = productRepository.findAllByKeywordByPriceRenge(keyword, upperPrice, lowerPrice);
 		return list;
 	}
+	
+	@GetMapping("/search/recommend")
+	public List<Product> getRecommend(){
+		List<Product> list = productRepository.findAllByRecommendFlg();
+		return list;
+	}
 }

@@ -46,4 +46,9 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 	List<Product> findAllByKeywordByPriceRenge(@Param("keyword") String keyword,
 												@Param("upperPrice") Integer upperPrice,
 												@Param("lowerPrice") Integer lowerPrice);
+	
+	// おすすめ商品を取得
+		@Query(value = "SELECT * FROM product "
+				     + "WHERE recommend_flg = '1'", nativeQuery = true)
+		List<Product> findAllByRecommendFlg();
 }

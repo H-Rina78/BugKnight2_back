@@ -38,4 +38,7 @@ public class Product {
 	
 	@Column(name = "image_name")
 	private String imageName;
+	
+	@Column(name = "recommend_flg")
+	private String recommendFlg;
 }
