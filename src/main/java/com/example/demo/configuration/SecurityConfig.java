@@ -14,6 +14,7 @@ public class SecurityConfig {
 	            .permitAll()) //  フォーム認証画面は認証不要
 	            .authorizeHttpRequests(authz -> authz
 	                .requestMatchers("/css/**").permitAll() // CSSファイルは認証不要
+	                .requestMatchers("/search/**").permitAll() // CSSファイルは認証不要
 	                .requestMatchers("/").permitAll() //  トップページは認証不要
 	                .anyRequest().authenticated() //  他のURLはログイン後アクセス可能
 	            );
