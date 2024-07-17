@@ -29,7 +29,6 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 													@Param("upperPrice") Integer upperPrice,
 													@Param("lowerPrice") Integer lowerPrice);
 	
-	
 	//キーワードでセレクトする
 	@Query(value = "SELECT * FROM product WHERE "
 			+ "product_name LIKE '%'||:keyword||'%' "
