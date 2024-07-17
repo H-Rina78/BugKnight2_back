@@ -17,7 +17,6 @@ import lombok.AllArgsConstructor;
 public class AuthenticationController {
 	private final UserRepository userRepository;
 	
-	@CrossOrigin
 	@GetMapping("/setCookie")
 	public String setCookie(HttpServletResponse response) {
 		Cookie cookie = new Cookie("newCookie", "cookieValue");
