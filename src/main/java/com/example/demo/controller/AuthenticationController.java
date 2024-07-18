@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +40,22 @@ public class AuthenticationController {
 			loginCheck = true;
 		}
 		return loginCheck;
+	}
+	
+	@PostMapping("/regist")
+	public boolean regist(@RequestParam("id") String id,
+			             @RequestParam("lastName") String lastName,
+			             @RequestParam("firstName") String firstName,
+			             @RequestParam("mail") String mail,
+			             @RequestParam("password") String password) {
+		boolean result = false;
+		System.out.println(id + ":" + mail);
+		List<User> userlist = userRepository.isUser(id, mail);
+		if(userlist.size() > 0) {
+			result = true;
+		}
+		System.out.println(result);
+		return result;
 	}
 
 }
