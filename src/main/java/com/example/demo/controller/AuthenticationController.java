@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.User;
@@ -27,16 +29,15 @@ public class AuthenticationController {
         return "Cookieを保存しました";
 	}
 	
-	@GetMapping("/login")
-	public String login() {
-		User user = userRepository.loginCheck("kouno123", "qwerty");
-		String a = null;
+	@PostMapping("/login")
+	public boolean login(@RequestParam("id") String id,
+						@RequestParam("password") String password) {
+		User user = userRepository.loginCheck(id, password);
+		boolean loginCheck = false;
 		if(user != null) {
-			a = "ログイン出来ました";
-		} else {
-			a = "ログインできませんでした";
+			loginCheck = true;
 		}
-		return a;
+		return loginCheck;
 	}
 
 }
