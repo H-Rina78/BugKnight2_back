@@ -10,6 +10,10 @@ import com.example.demo.entity.Product;
 
 public interface ProductRepository extends JpaRepository<Product, String> {
 	
+	@Query(value = "SELECT * FROM product "
+			     + "ORDER BY category_id, product_id", nativeQuery = true)
+	List<Product> getAllOrderByCategoryIdProductId();
+	
 	//上限と下限のpriceでセレクトする
 	@Query(value = "SELECT * FROM product WHERE "
 			+ "price BETWEEN :lowerPrice AND :upperPrice", nativeQuery = true)

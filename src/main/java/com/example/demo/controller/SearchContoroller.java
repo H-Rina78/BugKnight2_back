@@ -19,8 +19,8 @@ public class SearchContoroller {
 	private final ProductRepository productRepository;
 	
 	@GetMapping("/search")
-	public List<Product> getAll() {
-		List<Product> list = productRepository.findAll();
+	public List<Product> getAllOrderByCategoryIdProductId() {
+		List<Product> list = productRepository.getAllOrderByCategoryIdProductId();
 		return list;
 	}
 	
