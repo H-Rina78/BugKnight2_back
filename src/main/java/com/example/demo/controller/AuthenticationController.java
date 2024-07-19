@@ -29,14 +29,14 @@ public class AuthenticationController {
 		Cookie cookie = new Cookie("checkCookie", "true");
 		Cookie cookie2 = new Cookie("loginInfo", "0");
 		cookie.setPath("/");
-		cookie.setHttpOnly(true);
+//		cookie.setHttpOnly(true);
 		cookie.setSecure(false);//httpsを使用している場合true
-		cookie.setDomain("localhost");
+//		cookie.setDomain("http://localhost");
 		cookie.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
 		cookie2.setPath("/");
 //		cookie2.setHttpOnly(true);
 		cookie2.setSecure(false);//httpsを使用している場合true
-		cookie.setDomain("localhost");
+//		cookie.setDomain("http://localhost");
 		cookie2.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
         response.addCookie(cookie);
         response.addCookie(cookie2);
