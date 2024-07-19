@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import java.util.List;
+import java.util.Objects;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,20 +42,38 @@ public class AuthenticationController {
 		return loginCheck;
 	}
 	
+	@PostMapping("/registCheck")
+	public String registCheck(@RequestParam("id") String id,
+			             @RequestParam("mail") String mail) {
+		String message = "";
+		User userId = userRepository.isId(id);
+		User userMail = userRepository.isMail(mail);
+		if(Objects.nonNull(userId)) {
+			message = "このユーザIDは既に使用されています。";
+		}
+		
+		if(Objects.nonNull(userMail)) {
+			message = "このメールアドレスは既に使用されています。";
+		}
+			
+		System.out.println(message);
+		return message;
+	}
+	
 	@PostMapping("/regist")
-	public boolean regist(@RequestParam("id") String id,
+	public String regist(@RequestParam("id") String id,
 			             @RequestParam("lastName") String lastName,
 			             @RequestParam("firstName") String firstName,
+			             @RequestParam("address") String address,
+			             @RequestParam("tel") String tel,
 			             @RequestParam("mail") String mail,
 			             @RequestParam("password") String password) {
-		boolean result = false;
-		System.out.println(id + ":" + mail);
-		List<User> userlist = userRepository.isUser(id, mail);
-		if(userlist.size() > 0) {
-			result = true;
-		}
-		System.out.println(result);
-		return result;
+		
+		String message = "新規ユーザー登録しました。";
+		userRepository.insertUser(id, lastName, firstName, mail, password, address, tel);
+		
+		System.out.println(message);
+		return message;
 	}
 
 }
