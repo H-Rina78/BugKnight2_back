@@ -31,12 +31,12 @@ public class AuthenticationController {
 		cookie.setPath("/");
 //		cookie.setHttpOnly(true);
 		cookie.setSecure(false);//httpsを使用している場合true
-//		cookie.setDomain("http://localhost");
+		cookie.setDomain("localhost");
 		cookie.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
 		cookie2.setPath("/");
 //		cookie2.setHttpOnly(true);
 		cookie2.setSecure(false);//httpsを使用している場合true
-//		cookie.setDomain("http://localhost");
+		cookie.setDomain("localhost");
 		cookie2.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
         response.addCookie(cookie);
         response.addCookie(cookie2);
