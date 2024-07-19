@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.Base64;
 import java.util.Objects;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,23 +24,50 @@ import lombok.AllArgsConstructor;
 public class AuthenticationController {
 	private final UserRepository userRepository;
 	
-	@GetMapping("/setCookie")
+	@GetMapping("/bk/setCookie")
 	public String setCookie(HttpServletResponse response) {
-		Cookie cookie = new Cookie("newCookie", "cookieValue");
+		Cookie cookie = new Cookie("checkCookie", "true");
+		Cookie cookie2 = new Cookie("loginInfo", "0");
+		cookie.setPath("/");
 		cookie.setHttpOnly(true);
 		cookie.setSecure(false);//httpsを使用している場合true
 		cookie.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
+		cookie2.setPath("/");
+//		cookie2.setHttpOnly(true);
+		cookie2.setSecure(false);//httpsを使用している場合true
+		cookie2.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
         response.addCookie(cookie);
+        response.addCookie(cookie2);
         return "Cookieを保存しました";
 	}
 	
-	@PostMapping("/login")
+	@PostMapping("/bk/login")
 	public boolean login(@RequestParam("id") String id,
-						@RequestParam("password") String password) {
+						@RequestParam("password") String password,
+						HttpServletResponse response) {
 		User user = userRepository.loginCheck(id, password);
 		boolean loginCheck = false;
 		if(user != null) {
 			loginCheck = true;
+			String jsonUser = "";
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				jsonUser = mapper.writeValueAsString(user);
+				
+				// JSON文字列をBase64エンコード
+                String encodedJsonUser = Base64.getEncoder().encodeToString(jsonUser.getBytes());
+                
+                System.out.println(jsonUser);
+                System.out.println(encodedJsonUser);
+    			Cookie cookie = new Cookie("user", encodedJsonUser);
+    			cookie.setPath("/");
+    			cookie.setHttpOnly(true);
+    			cookie.setSecure(false);//httpsを使用している場合true
+    			cookie.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
+    			response.addCookie(cookie);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		}
 		return loginCheck;
 	}
