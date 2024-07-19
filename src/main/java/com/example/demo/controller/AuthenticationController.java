@@ -49,16 +49,18 @@ public class AuthenticationController {
 		User userId = userRepository.isId(id);
 		User userMail = userRepository.isMail(mail);
 		if(Objects.nonNull(userId)) {
-			message = "このユーザIDは既に使用されています。";
+			message = "※このユーザIDは既に使用されています。";
 		}
 		
 		if(Objects.nonNull(userMail)) {
-			message = "このメールアドレスは既に使用されています。";
+			message = "※このメールアドレスは既に使用されています。";
 		}
 			
 		System.out.println(message);
 		return message;
 	}
+	
+	
 	
 	@PostMapping("/regist")
 	public String regist(@RequestParam("id") String id,
