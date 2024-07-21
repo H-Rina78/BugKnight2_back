@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
@@ -73,6 +74,21 @@ public class AuthenticationController {
 			}
 		}
 		return loginCheck;
+	}
+	
+	@GetMapping("/bk/getUserCookie")
+	public String getUserValue(HttpServletRequest request) {
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null) {
+			for(Cookie cookie : cookies) {
+				if("user".equals(cookie.getName())) {
+					String user = new String(Base64.getDecoder().decode(cookie.getValue()));
+					System.out.println(user);
+					return user;
+				}
+			}
+		}
+		return "";
 	}
 	
 	@PostMapping("/registCheck")
