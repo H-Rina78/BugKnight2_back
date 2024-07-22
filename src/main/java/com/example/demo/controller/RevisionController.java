@@ -43,7 +43,7 @@ public class RevisionController {
 	
 	@PostMapping("/matchPassword")
 	public String matchPassword(@RequestParam("id") String id,
-								@RequestParam("password") String password) {
+								@RequestParam("oldPassword") String password) {
 		userRepository.loginCheck(id, password);
 		String message = "入力されたパスワードが一致しました。";
 		return message;
@@ -51,7 +51,7 @@ public class RevisionController {
 	
 	@PostMapping("/passwordRevision")
 	public String passwordRevision(@RequestParam("id") String id,
-								   @RequestParam("password") String password) {
+								   @RequestParam("newPassword") String password) {
 		userRepository.updatePassword(id, password);
 		String message = "更新しました。";
 		return message;
