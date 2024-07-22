@@ -36,6 +36,12 @@ public interface UserRepository extends JpaRepository<User, String>{
 	
 	@Transactional
 	@Modifying
+	@Query(value = "UPDATE user_info SET product = :product WHERE user_id = :userId", nativeQuery = true)
+	void updateProduct(@Param("product") String product,
+						@Param("userId") String userId);
+	
+	@Transactional
+	@Modifying
 	@Query(value = "INSERT INTO user_info(user_id, last_name, first_name, mail, password, address, tel) "
 			     + "VALUES(:id, :lastName, :firstName, :mail, crypt(:password, gen_salt('bf')), :address, :tel)", nativeQuery = true)
 	void insertUser(@Param("id") String id,
@@ -69,7 +75,7 @@ public interface UserRepository extends JpaRepository<User, String>{
 	@Transactional
 	@Modifying
 	@Query(value = "UPDATE user_info "
-				 + "SET user_id = :id "
+				 + "SET user_id = :userId "
 				 + "WHERE user_id = :userId", nativeQuery = true)
 	void updateIdData(@Param("userId") String userId);
 	
