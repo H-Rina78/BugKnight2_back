@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.model.ViewUserModel;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -35,4 +36,18 @@ public class User {
 	
 	@Column(name = "tel")
 	private String tel;
+	
+	@Column(name = "session")
+	private String session;
+	
+	public ViewUserModel getViewUserModel() {
+		ViewUserModel user = new ViewUserModel();
+		user.setId(id);
+		user.setLastName(lastName);
+		user.setFirstName(firstName);
+		user.setMail(mail);
+		user.setAddress(address);
+		user.setTel(tel);
+		return user;
+	}
 }

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.User;
+import com.example.demo.model.ConfirmationUtil;
+import com.example.demo.model.ViewUserModel;
 import com.example.demo.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,26 +54,27 @@ public class AuthenticationController {
 		boolean loginCheck = false;
 		if(user != null) {
 			loginCheck = true;
-			String jsonUser = "";
-			ObjectMapper mapper = new ObjectMapper();
-			try {
-				jsonUser = mapper.writeValueAsString(user);
-				
-				// JSON文字列をBase64エンコード
-                String encodedJsonUser = Base64.getEncoder().encodeToString(jsonUser.getBytes());
-                
-                System.out.println(jsonUser);
-                System.out.println(encodedJsonUser);
-    			Cookie cookie = new Cookie("user", encodedJsonUser);
-    			cookie.setPath("/");
-    			cookie.setHttpOnly(true);
-    			cookie.setSecure(false);//httpsを使用している場合true
-    			cookie.setDomain("localhost");
-    			cookie.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
-    			response.addCookie(cookie);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
+            String session = ConfirmationUtil.codeGenerate(15);
+            System.out.println(session);
+            //sessionが被っているかどうか確認
+            while(true) {
+            	User isSession = userRepository.isSession(session);
+                if(isSession == null) {
+                	break;
+                } else {
+                	session = ConfirmationUtil.codeGenerate(15);
+                }
+            }
+            userRepository.updateSession(session, user.getId());
+            String encodedSession = Base64.getEncoder().encodeToString(session.getBytes());
+            System.out.println(encodedSession);
+			Cookie cookie = new Cookie("loginSession", encodedSession);
+			cookie.setPath("/");
+			cookie.setHttpOnly(true);
+			cookie.setSecure(false);//httpsを使用している場合true
+			cookie.setDomain("localhost");
+			cookie.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
+			response.addCookie(cookie);
 		}
 		return loginCheck;
 	}
@@ -81,10 +84,22 @@ public class AuthenticationController {
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null) {
 			for(Cookie cookie : cookies) {
-				if("user".equals(cookie.getName())) {
-					String user = new String(Base64.getDecoder().decode(cookie.getValue()));
-					System.out.println(user);
-					return user;
+				if("loginSession".equals(cookie.getName())) {
+					String session = new String(Base64.getDecoder().decode(cookie.getValue()));
+					System.out.println(session);
+					User user = userRepository.isSession(session);
+					if(user != null) {
+						ViewUserModel viewUser = user.getViewUserModel();
+						String jsonUser = "";
+						ObjectMapper mapper = new ObjectMapper();
+						try {
+							jsonUser = mapper.writeValueAsString(viewUser);
+							System.out.println(jsonUser);
+						} catch (JsonProcessingException e) {
+							e.printStackTrace();
+						}
+						return jsonUser;
+					}
 				}
 			}
 		}

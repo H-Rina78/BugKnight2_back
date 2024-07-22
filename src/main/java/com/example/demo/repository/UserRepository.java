@@ -24,6 +24,16 @@ public interface UserRepository extends JpaRepository<User, String>{
 		     + "WHERE mail = :mail", nativeQuery = true)
 	User isMail(@Param("mail") String mail);
 	
+	@Query(value = "SELECT * FROM user_info "
+		     + "WHERE session = :session", nativeQuery = true)
+	User isSession(@Param("session") String session);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE user_info SET session = :session WHERE user_id = :userId", nativeQuery = true)
+	void updateSession(@Param("session") String session,
+						@Param("userId") String userId);
+	
 	@Transactional
 	@Modifying
 	@Query(value = "INSERT INTO user_info(user_id, last_name, first_name, mail, password, address, tel) "
