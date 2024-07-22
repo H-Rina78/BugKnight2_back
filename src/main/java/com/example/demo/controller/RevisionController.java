@@ -48,5 +48,13 @@ public class RevisionController {
 		String message = "入力されたパスワードが一致しました。";
 		return message;
 	}
+	
+	@PostMapping("/passwordRevision")
+	public String passwordRevision(@RequestParam("id") String id,
+								   @RequestParam("password") String password) {
+		userRepository.updatePassword(id, password);
+		String message = "更新しました。";
+		return message;
+	}
 
 }
