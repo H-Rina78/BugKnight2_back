@@ -79,4 +79,13 @@ public interface UserRepository extends JpaRepository<User, String>{
 				 + "WHERE user_id = :userId", nativeQuery = true)
 	void updateIdData(@Param("userId") String userId);
 	
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE user_info "
+				 + "SET password = crypt(:password, gen_salt('bf')) "
+				 + "WHERE user_id = :userId", nativeQuery = true)
+	void updatePassword(@Param("userId") String userId,
+						@Param("password") String password);
+	
+	
 }
