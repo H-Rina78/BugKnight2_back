@@ -37,7 +37,7 @@ public class RevisionController {
 	@PostMapping("/idRevision")
 	public String basicRevision(@RequestParam("id") String id) {
 		userRepository.updateIdData(id);
-		String message = "更新しましたよ。";
+		String message = "更新しました。";
 		return message;
 	}
 
