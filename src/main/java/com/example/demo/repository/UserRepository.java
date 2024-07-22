@@ -66,4 +66,11 @@ public interface UserRepository extends JpaRepository<User, String>{
 	void updateMailData(@Param("mail") String mail,
 						@Param("userId") String userId);
 	
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE user_info "
+				 + "SET id = :id "
+				 + "WHERE user_id = :userId", nativeQuery = true)
+	void updateIdData(@Param("userId") String userId);
+	
 }
