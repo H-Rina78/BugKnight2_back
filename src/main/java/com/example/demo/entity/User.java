@@ -40,6 +40,9 @@ public class User {
 	@Column(name = "session")
 	private String session;
 	
+	@Column(name = "product")
+	private String products;
+	
 	public ViewUserModel getViewUserModel() {
 		ViewUserModel user = new ViewUserModel();
 		user.setId(id);

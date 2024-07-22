@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.model.CartProductModel;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -41,4 +42,14 @@ public class Product {
 	
 	@Column(name = "recommend_flg")
 	private String recommendFlg;
+	
+	public CartProductModel getCartProductModel() {
+		CartProductModel product = new CartProductModel();
+		product.setId(id);
+		product.setName(name);
+		product.setCategoryId(categoryId);
+		product.setPrice(price);
+		product.setImageName(imageName);
+		return product;
+	}
 }
