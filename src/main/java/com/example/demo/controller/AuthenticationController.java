@@ -70,7 +70,6 @@ public class AuthenticationController {
             System.out.println(encodedSession);
 			Cookie cookie = new Cookie("loginSession", encodedSession);
 			cookie.setPath("/");
-			cookie.setHttpOnly(true);
 			cookie.setSecure(false);//httpsを使用している場合true
 			cookie.setDomain("localhost");
 			cookie.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
@@ -104,6 +103,25 @@ public class AuthenticationController {
 			}
 		}
 		return "";
+	}
+	
+	@GetMapping("/bk/checkLogin")
+	public boolean checkLogin(HttpServletRequest request) {
+		boolean checkLogin = false;
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null) {
+			for(Cookie cookie : cookies) {
+				if("loginSession".equals(cookie.getName())) {
+					String session = new String(Base64.getDecoder().decode(cookie.getValue()));
+					System.out.println(session);
+					User user = userRepository.isSession(session);
+					if(user != null) {
+						checkLogin = true;
+					}
+				}
+			}
+		}
+		return checkLogin;
 	}
 	
 	@PostMapping("/registCheck")
