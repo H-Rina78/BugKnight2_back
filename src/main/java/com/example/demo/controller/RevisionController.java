@@ -35,8 +35,24 @@ public class RevisionController {
 	}
 	
 	@PostMapping("/idRevision")
-	public String basicRevision(@RequestParam("id") String id) {
+	public String idRevision(@RequestParam("id") String id) {
 		userRepository.updateIdData(id);
+		String message = "更新しました。";
+		return message;
+	}
+	
+	@PostMapping("/matchPassword")
+	public String matchPassword(@RequestParam("id") String id,
+								@RequestParam("oldPassword") String password) {
+		userRepository.loginCheck(id, password);
+		String message = "入力されたパスワードが一致しました。";
+		return message;
+	}
+	
+	@PostMapping("/passwordRevision")
+	public String passwordRevision(@RequestParam("id") String id,
+								   @RequestParam("newPassword") String password) {
+		userRepository.updatePassword(id, password);
 		String message = "更新しました。";
 		return message;
 	}
