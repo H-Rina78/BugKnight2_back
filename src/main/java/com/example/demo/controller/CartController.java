@@ -54,6 +54,7 @@ public class CartController {
 			}
 		}
 		return list;
+		
 	}
 	
 	@PostMapping("/bk/setCart")
@@ -108,11 +109,17 @@ public class CartController {
 					if(user != null) {
 						ObjectMapper mapper = new ObjectMapper();
 						System.out.println(productList);
-						List<CartProductModel> list = new ArrayList<>();
 				        try {
+				        	String ansString = "";
 				        	List<CartProductModel> cartProductList = mapper.readValue(productList, new TypeReference<List<CartProductModel>>() {});
-				        	System.out.println(cartProductList.size());
-				        	System.out.println(cartProductList.get(1).getId());
+				        	for(int i = 0; i < cartProductList.size(); i++) {
+				        		 CartProductModel product = cartProductList.get(i);
+				        		 ansString += product.getId() + "," + product.getQuantity();
+				        		 if(i < cartProductList.size() - 1) {
+				        			 ansString += "_";
+				        		 }
+				        	}
+				        	userRepository.updateProduct(ansString, user.getId());
 				        } catch (JsonProcessingException e) {
 				            e.printStackTrace();
 				        }
