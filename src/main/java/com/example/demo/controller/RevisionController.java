@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
+import java.util.Objects;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
@@ -44,8 +47,12 @@ public class RevisionController {
 	@PostMapping("/matchPassword")
 	public String matchPassword(@RequestParam("id") String id,
 								@RequestParam("oldPassword") String password) {
-		userRepository.loginCheck(id, password);
-		String message = "入力されたパスワードが一致しました。";
+		User user = userRepository.loginCheck(id, password);
+		String message = "";
+		if(Objects.nonNull(user)) {
+			message = "一致";
+		}
+		
 		return message;
 	}
 	
