@@ -67,45 +67,6 @@ public class CartController {
 			for(Cookie cookie : cookies) {
 				if("loginSession".equals(cookie.getName())) {
 					String session = new String(Base64.getDecoder().decode(cookie.getValue()));
-					System.out.println(session);
-					User user = userRepository.isSession(session);
-					if(user != null) {
-						String product = user.getProducts();
-						String ansProduct = "";
-						String[] productList = product.split("_");
-						for(int i = 0; i < productList.length; i++) {
-							String products[] = productList[i].split(",");
-							if(id == products[0]) {
-								ansProduct += id + "," +  quantity;
-								checkSetCart = true;
-							} else {
-								ansProduct += products[0] + "," + products[1]; 
-							}
-							if(i < productList.length - 1) {
-								ansProduct += "_";
-							}
-						}
-						if(!checkSetCart) {
-							ansProduct += "_" + id + "," +  quantity;
-							checkSetCart = true;
-						}
-						userRepository.updateProduct(ansProduct, user.getId());				}
-				}
-			}
-		}
-		return checkSetCart;
-	}
-	
-	@PostMapping("/bk/setCart")
-	public boolean setCart(HttpServletRequest request,
-							@RequestParam("id") String id,
-							@RequestParam("quantity") String quantity) {
-		Cookie[] cookies = request.getCookies();
-		boolean checkSetCart = false;
-		if(cookies != null) {
-			for(Cookie cookie : cookies) {
-				if("loginSession".equals(cookie.getName())) {
-					String session = new String(Base64.getDecoder().decode(cookie.getValue()));
 					User user = userRepository.isSession(session);
 					if(user != null) {
 						String product = user.getProducts();
