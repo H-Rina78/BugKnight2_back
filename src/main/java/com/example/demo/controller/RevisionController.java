@@ -38,8 +38,10 @@ public class RevisionController {
 	}
 	
 	@PostMapping("/idRevision")
-	public String idRevision(@RequestParam("id") String id) {
-		userRepository.updateIdData(id);
+	public String idRevision(@RequestParam("currentId") String currentId,
+						     @RequestParam("id") String id) {
+		userRepository.updateIdData(currentId, id);
+		System.out.println(id);
 		String message = "更新しました。";
 		return message;
 	}
