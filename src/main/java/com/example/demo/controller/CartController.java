@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,11 +59,12 @@ public class CartController {
 	}
 	
 	@PostMapping("/bk/setCart")
-	public boolean setCart(HttpServletRequest request,
+	public String setCart(HttpServletRequest request,
 							@RequestParam("id") String id,
 							@RequestParam("quantity") String quantity) {
 		Cookie[] cookies = request.getCookies();
 		boolean checkSetCart = false;
+		String message = "false";
 		if(cookies != null) {
 			for(Cookie cookie : cookies) {
 				if("loginSession".equals(cookie.getName())) {
@@ -70,30 +72,42 @@ public class CartController {
 					User user = userRepository.isSession(session);
 					if(user != null) {
 						String product = user.getProducts();
-						String[] productList = product.split("_");
 						String ansProductList = "";
-						for(int i = 0; i < productList.length; i++) {
-							String products[] = productList[i].split(",");
-							if(id.equals(products[0])) {
-								ansProductList += id + "," + quantity;
+						if(Objects.nonNull(product) && !"".equals(product)) {
+							String[] productList = product.split("_");
+							System.out.println(productList.length);
+							if(productList.length > 20) {
+								return "20length";
+							}
+							for(int i = 0; i < productList.length; i++) {
+								String[] products = productList[i].split(",");
+								if(id.equals(products[0])) {
+									ansProductList += id + "," + quantity;
+									checkSetCart = true;
+									message = "true";
+								} else {
+									ansProductList += products[0] + "," + products[1];
+								}
+								if(i < productList.length - 1) {
+									ansProductList += "_";
+								}
+							}
+							if(!checkSetCart) {
+								ansProductList += "_" + id + "," + quantity;
 								checkSetCart = true;
-							} else {
-								ansProductList += products[0] + "," + products[1];
+								message = "true";
 							}
-							if(i < productList.length - 1) {
-								ansProductList += "_";
-							}
-						}
-						if(!checkSetCart) {
-							ansProductList += "_" + id + "," + quantity;
+						} else {
+							ansProductList += id + "," + quantity;
 							checkSetCart = true;
+							message = "true";
 						}
 						userRepository.updateProduct(ansProductList, user.getId());
 					}
 				}
 			}
 		}
-		return checkSetCart;
+		return message;
 	}
 	
 	@PostMapping("/bk/changeCart")
