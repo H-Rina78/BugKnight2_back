@@ -42,10 +42,10 @@ public class AuthenticationController {
 		cookie2.setDomain("localhost");
 		cookie2.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
 		Cookie cookie3 = new Cookie("check", "0");
-		cookie.setPath("/");
+		cookie3.setPath("/");
 //		cookie.setHttpOnly(true);
-		cookie.setSecure(false);//httpsを使用している場合true
-		cookie.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
+		cookie3.setSecure(false);//httpsを使用している場合true
+		cookie3.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
         response.addCookie(cookie);
         response.addCookie(cookie2);
         response.addCookie(cookie3);
