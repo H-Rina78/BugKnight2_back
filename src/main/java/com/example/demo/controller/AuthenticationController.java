@@ -39,10 +39,16 @@ public class AuthenticationController {
 		cookie2.setPath("/");
 //		cookie2.setHttpOnly(true);
 		cookie2.setSecure(false);//httpsを使用している場合true
-		cookie.setDomain("azurewebsites.net");
+		cookie2.setDomain("localhost");
 		cookie2.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
+		Cookie cookie3 = new Cookie("check", "0");
+		cookie.setPath("/");
+//		cookie.setHttpOnly(true);
+		cookie.setSecure(false);//httpsを使用している場合true
+		cookie.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
         response.addCookie(cookie);
         response.addCookie(cookie2);
+        response.addCookie(cookie3);
         return "Cookieを保存しました";
 	}
 	
