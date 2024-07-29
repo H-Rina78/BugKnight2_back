@@ -96,9 +96,49 @@ public class AuthenticationController {
 			Cookie cookie = new Cookie("loginSession", encodedSession);
 			cookie.setPath("/");
 			cookie.setSecure(false);//httpsを使用している場合true
-			cookie.setDomain("azurewebsites.net");
+			cookie.setDomain(".azurewebsites.net");
 			cookie.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
 			response.addCookie(cookie);
+			
+			Cookie cookie1 = new Cookie("check1", "1です");
+			cookie1.setPath("/");
+//			cookie.setHttpOnly(true);
+			cookie1.setSecure(false);//httpsを使用している場合true
+			cookie1.setDomain(".azurewebsites.net");
+			cookie1.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
+			
+			Cookie cookie2 = new Cookie("check2", "2です");
+			cookie2.setPath("/");
+//			cookie2.setHttpOnly(true);
+			cookie2.setSecure(false);//httpsを使用している場合true
+			cookie2.setDomain("localhost");
+			cookie2.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
+			
+			Cookie cookie3 = new Cookie("check3", "3です");
+			cookie3.setPath("/");
+//			cookie.setHttpOnly(true);
+			cookie3.setSecure(false);//httpsを使用している場合true
+			cookie3.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
+			
+			Cookie cookie4 = new Cookie("check4", "4です");
+			cookie4.setPath("/");
+//			cookie.setHttpOnly(true);
+			cookie4.setSecure(false);//httpsを使用している場合true
+			cookie4.setDomain("bugknights-b.azurewebsites.net");
+			cookie4.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
+			
+			Cookie cookie5 = new Cookie("check5", "5です");
+			cookie5.setPath("/");
+//			cookie.setHttpOnly(true);
+			cookie5.setSecure(false);//httpsを使用している場合true
+			cookie5.setDomain("bugknights-f.azurewebsites.net");
+			cookie5.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
+			
+	        response.addCookie(cookie1);
+	        response.addCookie(cookie2);
+	        response.addCookie(cookie3);
+	        response.addCookie(cookie4);
+	        response.addCookie(cookie5);
 		}
 		return loginCheck;
 	}
