@@ -96,7 +96,7 @@ public class AuthenticationController {
 			Cookie cookie = new Cookie("loginSession", encodedSession);
 			cookie.setPath("/");
 			cookie.setSecure(false);//httpsを使用している場合true
-			cookie.setDomain("azurewebsites.net");
+//			cookie.setDomain("azurewebsites.net");
 			cookie.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
 			response.addCookie(cookie);
 			
