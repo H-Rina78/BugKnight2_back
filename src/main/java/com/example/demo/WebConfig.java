@@ -16,7 +16,8 @@ public class WebConfig {
                 registry.addMapping("/bk/**")
                 // クッキーを共有したい他のサイトのURL
                         .allowedOrigins("http://localhost:3000",
-                        		"https://bugknights-f.azurewebsites.net")
+                        		"https://bugknights-f.azurewebsites.net",
+                        		"https://bugknights-b.azurewebsites.net")
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowCredentials(true); // クッキーを許可する
             }
