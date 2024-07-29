@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.demo.entity.User;
 import com.example.demo.model.ConfirmationUtil;
@@ -28,7 +29,7 @@ public class AuthenticationController {
 	private final UserRepository userRepository;
 	
 	@GetMapping("/bk/setCookie")
-	public String setCookie(HttpServletResponse response) {
+	public String setCookie(HttpServletResponse response, HttpServletRequest request) {
 		Cookie cookie1 = new Cookie("check1", "1です");
 		cookie1.setPath("/");
 //		cookie.setHttpOnly(true);
@@ -68,13 +69,18 @@ public class AuthenticationController {
         response.addCookie(cookie3);
         response.addCookie(cookie4);
         response.addCookie(cookie5);
+        String uri2 = request.getServerName();
+        String uri = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
+        System.out.println(uri2);
+        System.out.println(uri);
         return "Cookieを保存しました";
 	}
 	
 	@PostMapping("/bk/login")
 	public boolean login(@RequestParam("id") String id,
 						@RequestParam("password") String password,
-						HttpServletResponse response) {
+						HttpServletResponse response,
+						HttpServletRequest request) {
 		User user = userRepository.loginCheck(id, password);
 		boolean loginCheck = false;
 		if(user != null) {
@@ -134,11 +140,25 @@ public class AuthenticationController {
 			cookie5.setDomain("bugknights-f.azurewebsites.net");
 			cookie5.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
 			
+	        String uri2 = request.getServerName();
+	        
+	        Cookie cookie6 = new Cookie("check6", "6です");
+			cookie6.setPath("/");
+//			cookie.setHttpOnly(true);
+			cookie6.setSecure(false);//httpsを使用している場合true
+			cookie6.setDomain(uri2);
+			cookie6.setMaxAge(7 * 24 * 60 * 60); // 1週間の有効期限
+			
 	        response.addCookie(cookie1);
 	        response.addCookie(cookie2);
 	        response.addCookie(cookie3);
 	        response.addCookie(cookie4);
 	        response.addCookie(cookie5);
+	        response.addCookie(cookie6);
+	        
+	        String uri = ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString();
+	        System.out.println(uri2);
+	        System.out.println(uri);
 		}
 		return loginCheck;
 	}
