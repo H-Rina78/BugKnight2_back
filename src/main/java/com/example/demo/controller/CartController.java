@@ -76,7 +76,7 @@ public class CartController {
 						if(Objects.nonNull(product) && !"".equals(product)) {
 							String[] productList = product.split("_");
 							System.out.println(productList.length);
-							if(productList.length > 20) {
+							if(productList.length > 19) {
 								return "20length";
 							}
 							for(int i = 0; i < productList.length; i++) {
