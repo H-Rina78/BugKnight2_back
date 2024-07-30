@@ -22,4 +22,9 @@ public interface OrderRepository extends JpaRepository<OrderHistory, String> {
 				 + "values(:userId, :productList, current_date)", nativeQuery = true)
 	void insertOrder(@Param("userId") String userId,
 					 @Param("productList") String productList);
+	
+	@Query(value = "update user_info "
+				 + "set product = '' "
+				 + "where user_id = :id", nativeQuery = true)
+	void clearCart(@Param("id") String id);
 }

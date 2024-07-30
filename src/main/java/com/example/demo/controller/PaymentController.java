@@ -57,5 +57,6 @@ public class PaymentController {
 	public void insertOrder(@RequestParam("id") String id) {
 		String productList = orderRepository.getCartProduct(id);
 		orderRepository.insertOrder(id, productList);
+		orderRepository.clearCart(id);
 	}
 }
