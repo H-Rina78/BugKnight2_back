@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entity.Product;
 import com.example.demo.entity.User;
 import com.example.demo.model.CartProductModel;
+import com.example.demo.model.ConfirmationUtil;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,7 +36,8 @@ public class CartController {
 		if(cookies != null) {
 			for(Cookie cookie : cookies) {
 				if("loginSession".equals(cookie.getName())) {
-					String session = new String(Base64.getDecoder().decode(cookie.getValue()));
+					System.out.println(cookie.getValue());
+					String session = ConfirmationUtil.decodeSessionId(cookie.getValue());
 					System.out.println(session);
 					User user = userRepository.isSession(session);
 					if(user != null && user.getProducts() != null) {
@@ -68,7 +69,7 @@ public class CartController {
 		if(cookies != null) {
 			for(Cookie cookie : cookies) {
 				if("loginSession".equals(cookie.getName())) {
-					String session = new String(Base64.getDecoder().decode(cookie.getValue()));
+					String session = ConfirmationUtil.decodeSessionId(cookie.getValue());
 					User user = userRepository.isSession(session);
 					if(user != null) {
 						String product = user.getProducts();
@@ -118,7 +119,7 @@ public class CartController {
 		if(cookies != null) {
 			for(Cookie cookie : cookies) {
 				if("loginSession".equals(cookie.getName())) {
-					String session = new String(Base64.getDecoder().decode(cookie.getValue()));
+					String session = ConfirmationUtil.decodeSessionId(cookie.getValue());
 					User user = userRepository.isSession(session);
 					if(user != null) {
 						ObjectMapper mapper = new ObjectMapper();
