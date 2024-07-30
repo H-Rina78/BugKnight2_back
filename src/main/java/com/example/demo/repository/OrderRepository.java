@@ -14,6 +14,10 @@ public interface OrderRepository extends JpaRepository<OrderHistory, String> {
 		         + "ORDER BY order_date", nativeQuery = true)
 	List<OrderHistory> getAllOrderByUserId(@Param("userId") String userId);
 	
+	@Query(value = "select product from user_info "
+				 + "where user_id = :id", nativeQuery = true)
+	String getCartProduct(@Param("id") String userId);
+	
 	@Query(value = "insert into order_history(user_id, product_list, order_date) "
 				 + "values(:userId, :productList, current_date)", nativeQuery = true)
 	void insertOrder(@Param("userId") String userId,
