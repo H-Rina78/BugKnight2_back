@@ -11,7 +11,7 @@ import com.example.demo.entity.OrderHistory;
 public interface OrderRepository extends JpaRepository<OrderHistory, String> {
 	@Query(value = "SELECT * FROM order_history "
 			     + "WHERE user_id = :userId "
-		         + "ORDER BY order_date desc "
+		         + "ORDER BY order_id desc "
 		         + "limit 3", nativeQuery = true)
 	List<OrderHistory> getAllOrderByUserId(@Param("userId") String userId);
 	
