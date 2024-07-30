@@ -14,7 +14,8 @@ import jakarta.transaction.Transactional;
 public interface OrderRepository extends JpaRepository<OrderHistory, String> {
 	@Query(value = "SELECT * FROM order_history "
 			     + "WHERE user_id = :userId "
-		         + "ORDER BY order_date", nativeQuery = true)
+		         + "ORDER BY order_date "
+		         + "limit 3", nativeQuery = true)
 	List<OrderHistory> getAllOrderByUserId(@Param("userId") String userId);
 	
 	@Query(value = "select product from user_info "
