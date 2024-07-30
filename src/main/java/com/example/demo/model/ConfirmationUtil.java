@@ -10,9 +10,7 @@ public class ConfirmationUtil {
 	public static String encodeSessionId(String sessionId) {
         String encodeSessionId = "";
         try {
-        	System.out.println("sessionId" + sessionId);
         	String encodedString = Base64.getEncoder().encodeToString(sessionId.getBytes());
-        	System.out.println("sessionId" + sessionId);
             encodeSessionId = URLEncoder.encode(encodedString, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -24,9 +22,8 @@ public class ConfirmationUtil {
         String decodeSessionId = "";
         try {
             String decodedString = URLDecoder.decode(sessionId, "UTF-8");
-            System.out.println(decodedString);
-            decodeSessionId = new String(Base64.getDecoder().decode(decodedString));
-            System.out.println(decodeSessionId);
+            String decodedURL = URLDecoder.decode(decodedString, "UTF-8");
+            decodeSessionId = new String(Base64.getDecoder().decode(decodedURL));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

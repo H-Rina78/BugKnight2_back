@@ -39,7 +39,6 @@ public class AuthenticationController {
 			String sessionId = session.getId();
 			userRepository.updateSession(sessionId, user.getId());
 			String encodedSessionId = ConfirmationUtil.encodeSessionId(sessionId);
-			System.out.println(encodedSessionId);
 			message = encodedSessionId;
 		}
 		return message;
@@ -52,7 +51,7 @@ public class AuthenticationController {
 			for (Cookie cookie : cookies) {
 				if ("loginSession".equals(cookie.getName())) {
 					String session = ConfirmationUtil.decodeSessionId(cookie.getValue());
-					System.out.println(session);
+					System.out.println("session" + session);
 					User user = userRepository.isSession(session);
 					if (user != null) {
 						ViewUserModel viewUser = user.getViewUserModel();
