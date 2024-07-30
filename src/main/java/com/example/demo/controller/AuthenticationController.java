@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import java.util.Objects;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,9 +14,7 @@ import com.example.demo.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 
@@ -29,9 +26,8 @@ public class AuthenticationController {
 
 	@PostMapping("/bk/login")
 	public String login(@RequestParam("id") String id,
-			@RequestParam("password") String password,
-			HttpServletResponse response,
-			HttpServletRequest request) {
+						@RequestParam("password") String password,
+						HttpServletRequest request) {
 		User user = userRepository.loginCheck(id, password);
 		String message = "false";
 		if (user != null) {
@@ -45,48 +41,33 @@ public class AuthenticationController {
 		return message;
 	}
 
-	@GetMapping("/bk/getUserCookie")
-	public String getUserValue(HttpServletRequest request) {
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if ("loginSession".equals(cookie.getName())) {
-					String session = ConfirmationUtil.decodeSessionId(cookie.getValue());
-					System.out.println("session" + session);
-					User user = userRepository.isSession(session);
-					if (user != null) {
-						ViewUserModel viewUser = user.getViewUserModel();
-						String jsonUser = "";
-						ObjectMapper mapper = new ObjectMapper();
-						try {
-							jsonUser = mapper.writeValueAsString(viewUser);
-							System.out.println(jsonUser);
-						} catch (JsonProcessingException e) {
-							e.printStackTrace();
-						}
-						return jsonUser;
-					}
-				}
+	@PostMapping("/bk/getUserCookie")
+	public String getUserValue(@RequestParam("session") String session) {
+		String sessionId = ConfirmationUtil.decodeSessionId(session);
+		System.out.println("session" + sessionId);
+		User user = userRepository.isSession(sessionId);
+		if (user != null) {
+			ViewUserModel viewUser = user.getViewUserModel();
+			String jsonUser = "";
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				jsonUser = mapper.writeValueAsString(viewUser);
+				System.out.println(jsonUser);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
 			}
+			return jsonUser;
 		}
 		return "";
 	}
 
-	@GetMapping("/bk/checkLogin")
-	public boolean checkLogin(HttpServletRequest request) {
+	@PostMapping("/bk/checkLogin")
+	public boolean checkLogin(@RequestParam("session") String session) {
 		boolean checkLogin = false;
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if ("loginSession".equals(cookie.getName())) {
-					String session = ConfirmationUtil.decodeSessionId(cookie.getValue());
-					System.out.println(session);
-					User user = userRepository.isSession(session);
-					if (user != null) {
-						checkLogin = true;
-					}
-				}
-			}
+		String sessionId = ConfirmationUtil.decodeSessionId(session);
+		User user = userRepository.isSession(sessionId);
+		if (user != null) {
+			checkLogin = true;
 		}
 		return checkLogin;
 	}
