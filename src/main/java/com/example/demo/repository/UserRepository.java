@@ -92,5 +92,12 @@ public interface UserRepository extends JpaRepository<User, String>{
 	void updatePassword(@Param("userId") String userId,
 						@Param("password") String password);
 	
+	@Transactional
+	@Modifying
+	@Query(value = "update user_info "
+				 + "set product = '' "
+				 + "where user_id = :id", nativeQuery = true)
+	void clearCart(@Param("id") String id);
+	
 	
 }

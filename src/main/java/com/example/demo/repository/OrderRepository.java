@@ -3,13 +3,10 @@ package com.example.demo.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.demo.entity.OrderHistory;
-
-import jakarta.transaction.Transactional;
 
 public interface OrderRepository extends JpaRepository<OrderHistory, String> {
 	@Query(value = "SELECT * FROM order_history "
@@ -27,10 +24,5 @@ public interface OrderRepository extends JpaRepository<OrderHistory, String> {
 	void insertOrder(@Param("userId") String userId,
 					 @Param("productList") String productList);
 	
-	@Transactional
-	@Modifying
-	@Query(value = "update user_info "
-				 + "set product = '' "
-				 + "where user_id = :id", nativeQuery = true)
-	void clearCart(@Param("id") String id);
+	
 }

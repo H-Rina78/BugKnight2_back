@@ -15,6 +15,7 @@ import com.example.demo.model.CartProductModel;
 import com.example.demo.model.OrderModel;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.ProductRepository;
+import com.example.demo.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -24,6 +25,7 @@ import lombok.AllArgsConstructor;
 public class PaymentController {
 	private final OrderRepository orderRepository;
 	private final ProductRepository productRepository;
+	private final UserRepository userRepository;
 
 	@PostMapping("/orderHistory")
 	public List<OrderModel> getOrderHistory(@RequestParam("id") String userId) {
@@ -56,6 +58,6 @@ public class PaymentController {
 	public void insertOrder(@RequestParam("id") String id) {
 		String productList = orderRepository.getCartProduct(id);
 		orderRepository.insertOrder(id, productList);
-		orderRepository.clearCart(id);
+		userRepository.clearCart(id);
 	}
 }
