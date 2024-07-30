@@ -30,6 +30,11 @@ public interface UserRepository extends JpaRepository<User, String>{
 	
 	@Transactional
 	@Modifying
+	@Query(value = "UPDATE user_info SET session = null WHERE session = :session", nativeQuery = true)
+	void deleteSession(@Param("session") String session);
+	
+	@Transactional
+	@Modifying
 	@Query(value = "UPDATE user_info SET session = :session WHERE user_id = :userId", nativeQuery = true)
 	void updateSession(@Param("session") String session,
 						@Param("userId") String userId);

@@ -37,6 +37,7 @@ public class AuthenticationController {
 		if (user != null) {
 			HttpSession session = request.getSession(true);
 			String sessionId = session.getId();
+			userRepository.deleteSession(sessionId);
 			userRepository.updateSession(sessionId, user.getId());
 			String encodedSessionId = ConfirmationUtil.encodeSessionId(sessionId);
 			message = encodedSessionId;
