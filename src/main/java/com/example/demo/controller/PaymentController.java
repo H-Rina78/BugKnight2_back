@@ -57,7 +57,7 @@ public class PaymentController {
 	@PostMapping("/insertOrder")
 	public void insertOrder(@RequestParam("id") String id) {
 		String productList = orderRepository.getCartProduct(id);
-		orderRepository.insertOrder(id, productList);
 		userRepository.clearCart(id);
+		orderRepository.insertOrder(id, productList);
 	}
 }

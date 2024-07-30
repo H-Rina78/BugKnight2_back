@@ -94,9 +94,9 @@ public interface UserRepository extends JpaRepository<User, String>{
 	
 	@Transactional
 	@Modifying
-	@Query(value = "update user_info "
-				 + "set product = '' "
-				 + "where user_id = :id", nativeQuery = true)
+	@Query(value = "UPDATE user_info "
+				 + "SET product = null "
+				 + "WHERE user_id = :id", nativeQuery = true)
 	void clearCart(@Param("id") String id);
 	
 	
